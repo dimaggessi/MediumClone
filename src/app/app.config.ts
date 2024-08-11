@@ -1,9 +1,34 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import {
+  ApplicationConfig,
+  isDevMode,
+  provideZoneChangeDetection,
+} from '@angular/core';
 
-import { appRoutes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
+import {provideRouter} from '@angular/router';
+import {appRoutes} from './app.routes';
+import {provideClientHydration} from '@angular/platform-browser';
+import {provideState, provideStore} from '@ngrx/store';
+import {provideStoreDevtools} from '@ngrx/store-devtools';
+import {authFeatureKey, authReducer} from './auth/store/reducers';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideEffects } from '@ngrx/effects';
+import * as authEffects from './auth/store/effects';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(appRoutes), provideClientHydration()]
+  providers: [
+    provideHttpClient(withFetch()),
+    provideZoneChangeDetection({eventCoalescing: true}),
+    provideRouter(appRoutes),
+    provideClientHydration(),
+    provideStore(),
+    provideState(authFeatureKey, authReducer),
+    provideEffects(authEffects),
+    provideStoreDevtools({
+      maxAge: 25, // maximum amounth of actions stored
+      logOnly: !isDevMode(), // Restrict extension to log-only mode
+      autoPause: true, // Pauses recording actions and state changes when the extension window is not open
+      trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
+      traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
+    }),
+  ],
 };
