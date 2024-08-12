@@ -1,0 +1,14 @@
+nav {
+  margin-top: 0.2rem;
+}
+
+// hr {
+//   border-top: 1px solid green;
+// }
+
+hr {
+  border: 0;
+  height: 1px;
+  background: green;
+  background-image: linear-gradient(to right, #ccc, green, #ccc);
+}

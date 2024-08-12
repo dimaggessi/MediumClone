@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BackendErrorsInterface} from '../../auth/types/backendErrors.interface';
+import {BackendErrorsInterface} from '../../../auth/types/backendErrors.interface';
 import { CommonModule } from '@angular/common';
 
 @Component({

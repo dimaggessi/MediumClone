@@ -6,4 +6,9 @@ export const appRoutes: Routes = [
     loadChildren: () =>
       import('./auth/auth.routes').then((m) => m.registerRoute),
   },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./auth/auth.routes').then((m) => m.loginRoute),
+  },
 ];
