@@ -8,7 +8,6 @@ import {CommonModule} from '@angular/common';
 @Component({
   selector: 'mc-topbar',
   templateUrl: './topBar.component.html',
-  styleUrl: './topBar.component.scss',
   standalone: true,
   imports: [RouterLink, CommonModule],
 })
