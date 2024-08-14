@@ -1,4 +1,4 @@
-import {GetFeedResponseInterface} from '../types/getFeedResponse.interface';
+import {GetFeedResponseInterface} from './getFeedResponse.interface';
 
 export interface FeedStateInterface {
   isLoading: boolean; // to show the loading indicator

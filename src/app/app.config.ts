@@ -23,8 +23,12 @@ import {
 import {provideEffects} from '@ngrx/effects';
 import * as authEffects from './auth/store/effects';
 import * as feedEffects from './shared/components/feed/store/effects';
+import * as popularTagsEffects from './shared/components/popularTags/store/effects';
 import {authInterceptor} from './shared/services/authInterceptor';
-
+import {
+  popularTagsFeatureKey,
+  popularTagsReducer,
+} from './shared/components/popularTags/store/reducers';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
@@ -35,7 +39,8 @@ export const appConfig: ApplicationConfig = {
     provideRouterStore(),
     provideState(authFeatureKey, authReducer),
     provideState(feedFeatureKey, feedReducer),
-    provideEffects(authEffects, feedEffects),
+    provideState(popularTagsFeatureKey, popularTagsReducer),
+    provideEffects(authEffects, feedEffects, popularTagsEffects),
     provideStoreDevtools({
       maxAge: 25, // maximum amounth of actions stored
       logOnly: !isDevMode(), // Restrict extension to log-only mode
