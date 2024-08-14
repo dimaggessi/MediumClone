@@ -8,12 +8,21 @@ export const appRoutes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () =>
-      import('./auth/auth.routes').then((m) => m.loginRoute),
+    loadChildren: () => import('./auth/auth.routes').then((m) => m.loginRoute),
   },
   {
     path: '',
     loadChildren: () =>
       import('./globalFeed/globalFeed.routes').then((m) => m.routes),
-  }
+  },
+  {
+    path: 'feed',
+    loadChildren: () =>
+      import('./yourFeed/yourFeed.routes').then((m) => m.routes),
+  },
+  {
+    path: 'tags/:slug',
+    loadChildren: () =>
+      import('./tagFeed/tagFeed.routes').then((m) => m.routes),
+  },
 ];
