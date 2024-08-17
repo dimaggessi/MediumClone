@@ -1,4 +1,10 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {feedActions} from './store/actions';
 import {combineLatest} from 'rxjs';
@@ -10,7 +16,7 @@ import {LoadingComponent} from '../loading/loading.component';
 import {environment} from '../../../../environments/environment.development';
 import {PaginationComponent} from '../pagination/pagination.component';
 import queryString from 'query-string';
-import { TagListComponent } from '../tagList/tagList.component';
+import {TagListComponent} from '../tagList/tagList.component';
 
 @Component({
   selector: 'mc-feed',
@@ -22,7 +28,7 @@ import { TagListComponent } from '../tagList/tagList.component';
     ErrorMessageComponent,
     LoadingComponent,
     PaginationComponent,
-    TagListComponent
+    TagListComponent,
   ],
 })
 export class FeedComponent implements OnInit, OnChanges {
@@ -44,7 +50,6 @@ export class FeedComponent implements OnInit, OnChanges {
     private route: ActivatedRoute
   ) {}
 
-
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: Params) => {
       // {page: '1'}
@@ -53,11 +58,14 @@ export class FeedComponent implements OnInit, OnChanges {
     });
   }
 
-  // when change API Url from tagName on PopularTags
+  // check changes API Url from tagName on PopularTags
   ngOnChanges(changes: SimpleChanges): void {
+    // if isn't firstChange, then
+    // if previous value is different from currentValue
+    // result: isApiUrlChanged == true
     const isApiUrlChanged =
       !changes['apiUrl'].firstChange &&
-        changes['apiUrl'].currentValue !== changes['apiUrl'].previousValue
+      changes['apiUrl'].currentValue !== changes['apiUrl'].previousValue;
 
     if (isApiUrlChanged) {
       this.fetchFeed();
@@ -70,7 +78,7 @@ export class FeedComponent implements OnInit, OnChanges {
   // page 3 offset 40
   // page 4 offset 60 and so on
   fetchFeed(): void {
-    const offset = (this.currentPage * this.limit) - this.limit;
+    const offset = this.currentPage * this.limit - this.limit;
 
     // to avoid something like /articles?foo=foo
     const parsedUrl = queryString.parseUrl(this.apiUrl);
@@ -78,11 +86,11 @@ export class FeedComponent implements OnInit, OnChanges {
     const stringifiedParams = queryString.stringify({
       limit: this.limit,
       offset,
-      ...parsedUrl.query
-    })
+      ...parsedUrl.query,
+    });
     console.log('offset', offset, parsedUrl, stringifiedParams);
 
-    const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`
+    const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
     this.store.dispatch(feedActions.getFeed({url: apiUrlWithParams}));
   }
 }

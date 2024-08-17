@@ -8,3 +8,5 @@ export class UtilsService {
     return [...Array(end - start).keys()].map(el => el + start)
   }
 }
+
+// used for pagination
