@@ -63,9 +63,20 @@ const authFeature = createFeature({
     on(authActions.getCurrentUserFailure, (state) => ({
       ...state,
       isLoading: false,
+      currentUser: null,
+    })),
+    // because isLoading isn't needed, no reducer on 'updateCurrentUser' will be created
+    // only reacting to updateCurrentUserSuccess
+    on(authActions.updateCurrentUserSuccess, (state, action) => ({
+      ...state,
+      currentUser: action.currentUser,
+    })),
+    on(authActions.logout, (state) => ({
+      ...state,
+      ...initialState,
       currentUser: null
     })),
-    on(routerNavigationAction, (state) => ({...state, validationErrors: null}))
+    on(routerNavigationAction, (state) => ({...state, validationErrors: null})),
   ),
 });
 
