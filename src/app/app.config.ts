@@ -24,11 +24,13 @@ import {provideEffects} from '@ngrx/effects';
 import * as authEffects from './auth/store/effects';
 import * as feedEffects from './shared/components/feed/store/effects';
 import * as popularTagsEffects from './shared/components/popularTags/store/effects';
+import * as addToFavoritesEffects from './shared/components/addToFavorites/store/effects';
 import {authInterceptor} from './shared/services/authInterceptor';
 import {
   popularTagsFeatureKey,
   popularTagsReducer,
 } from './shared/components/popularTags/store/reducers';
+import { AddToFavoritesService } from './shared/components/addToFavorites/services/addToFavorites.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
@@ -40,7 +42,12 @@ export const appConfig: ApplicationConfig = {
     provideState(authFeatureKey, authReducer),
     provideState(feedFeatureKey, feedReducer),
     provideState(popularTagsFeatureKey, popularTagsReducer),
-    provideEffects(authEffects, feedEffects, popularTagsEffects),
+    provideEffects(
+      authEffects,
+      feedEffects,
+      popularTagsEffects,
+      addToFavoritesEffects
+    ),
     provideStoreDevtools({
       maxAge: 25, // maximum amounth of actions stored
       logOnly: !isDevMode(), // Restrict extension to log-only mode
@@ -48,5 +55,6 @@ export const appConfig: ApplicationConfig = {
       trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
       traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
     }),
+    AddToFavoritesService,
   ],
 };
