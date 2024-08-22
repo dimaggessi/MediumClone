@@ -90,7 +90,7 @@ export class FeedComponent implements OnInit, OnChanges {
       offset,
       ...parsedUrl.query,
     });
-    console.log('offset', offset, parsedUrl, stringifiedParams);
+    //console.log('offset', offset, parsedUrl, stringifiedParams);
 
     const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`;
     this.store.dispatch(feedActions.getFeed({url: apiUrlWithParams}));
